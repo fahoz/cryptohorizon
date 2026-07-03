@@ -48,5 +48,4 @@ sonra `http://localhost:8000` adresine git.
 - Bazı public API'ler tarayıcıdan yapılan sık isteklerde rate limit uygulayabilir; bu durumda ilgili kart "veri alınamadı" mesajı gösterir ve bir sonraki periyodik yenilemede tekrar dener.
 
 ---
-Sorularınız için: fahodevs@gmail.com
 Made by **Fahoz**
