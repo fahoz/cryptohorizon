@@ -25,6 +25,13 @@ Kripto para ve döviz kurlarını tek bir sayfada takip etmek için yaptığım 
 
 Hepsi ücretsiz ve API key gerektirmiyor. Public API'ler zaman zaman rate-limit atabiliyor, bu yüzden istekler kısa bir retry mantığıyla sarmalandı (`fetchJSON` helper'ı, `js/app.js` içinde).
 
+## Yenilemeler
+- Kripto fiyatları ve şerit: 30 saniyede bir yenileniyor
+- Döviz kurları / çevirici: 30 saniyede bir yenileniyor
+- Global piyasa istatistikleri: 90 saniyede bir
+- Korku & Açgözlülük Endeksi: 5 dakikada bir
+- Trend coinler: 5 dakikada bir
+
 ## Yerelde çalıştırma
 
 Build adımı yok. `index.html`'i tarayıcıda açman yeterli. İstersen basit bir local server ile de açabilirsin:
