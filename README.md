@@ -2,8 +2,6 @@
 
 Kripto para ve döviz kurlarını tek bir sayfada takip etmek için yaptığım basit bir panel. Sadece HTML/CSS/JS ile yazıldı. Hiçbir build aracı, framework ya da backend yok.
 
-**Demo:** dosyayı indirip tarayıcıda açman yeterli, kurulum gerekmiyor.
-
 ## Özellikler
 
 - Popüler kripto paraların anlık fiyatları ve 24 saatlik değişimleri
