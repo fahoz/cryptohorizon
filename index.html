@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CryptoHorizon — Kripto ve Döviz Takip Paneli</title>
+<meta name="author" content="Fahoz">
+<meta name="description" content="Kripto para ve döviz kurlarını anlık olarak takip edin.">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+
+<header id="top">
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <div>Crypto<span class="accent">Horizon</span></div>
+  </div>
+  <div class="clockbox">
+    <div id="clock">00:00:00</div>
+    <div id="dateline">-</div>
+  </div>
+</header>
+
+<main>
+
+  <details class="section" open>
+    <summary class="section-title"><span class="st-left">Piyasa Genel Bakış</span><span class="chevron">▾</span></summary>
+    <div class="stats-bar" id="statsBar">
+      <div class="glass stat-item"><div class="stat-label">Toplam Piyasa Değeri</div><div class="stat-value" id="statMcap">-</div></div>
+      <div class="glass stat-item"><div class="stat-label">24s İşlem Hacmi</div><div class="stat-value" id="statVol">-</div></div>
+      <div class="glass stat-item"><div class="stat-label">BTC Dominansı</div><div class="stat-value gold" id="statBtcDom">-</div></div>
+      <div class="glass stat-item"><div class="stat-label">Aktif Kripto Sayısı</div><div class="stat-value" id="statCoins">-</div></div>
+    </div>
+  </details>
+
+  <details class="section" open>
+    <summary class="section-title"><span class="st-left">Korku & Açgözlülük Endeksi</span><span class="chevron">▾</span></summary>
+    <div class="glass fng-wrap">
+      <div class="fng-gauge">
+        <svg viewBox="0 0 140 140">
+          <circle class="fng-gauge-bg" cx="70" cy="70" r="58"></circle>
+          <circle class="fng-gauge-fg" id="fngCircle" cx="70" cy="70" r="58" stroke="#F5C740" stroke-dasharray="364" stroke-dashoffset="364"></circle>
+        </svg>
+        <div class="fng-center">
+          <div class="fng-num" id="fngNum">-</div>
+          <div class="fng-label">/ 100</div>
+        </div>
+      </div>
+      <div class="fng-desc">
+        <h3 id="fngClass">Yükleniyor...</h3>
+        <p>Bu endeks, kripto piyasasındaki genel duyguyu 0 (Aşırı Korku) ile 100 (Aşırı Açgözlülük) arasında ölçer. Veriler alternative.me tarafından sağlanmaktadır.</p>
+      </div>
+    </div>
+  </details>
+
+  <details class="section" open>
+    <summary class="section-title"><span class="st-left">Trend Olan Coinler</span><span class="chevron">▾</span></summary>
+    <div class="glass trending-strip" id="trendingStrip">
+      <div class="loading">Yükleniyor...</div>
+    </div>
+  </details>
+
+  <details class="section" open>
+    <summary class="section-title"><span class="st-left">Popüler Kripto Paralar</span><span class="chevron">▾</span></summary>
+    <div class="grid" id="cryptoGrid">
+      <div class="loading">Veriler yükleniyor...</div>
+    </div>
+  </details>
+
+  <details class="section" open>
+    <summary class="section-title"><span class="st-left">Fiyat Grafiği</span><span class="chevron">▾</span></summary>
+    <div class="glass">
+      <div class="chart-controls">
+        <div class="coin-selector" id="coinSelector"></div>
+        <div class="range-selector">
+          <button class="range-btn" data-days="1">24S</button>
+          <button class="range-btn active" data-days="7">7G</button>
+          <button class="range-btn" data-days="30">30G</button>
+          <button class="range-btn" data-days="365">1Y</button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="priceChart"></canvas>
+      </div>
+    </div>
+  </details>
+
+  <details class="section" open>
+    <summary class="section-title"><span class="st-left">Döviz Kuru Geçmişi</span><span class="chevron">▾</span></summary>
+    <div class="glass">
+      <div class="chart-controls">
+        <div class="coin-selector" id="fxPairSelector"></div>
+        <div class="range-selector">
+          <button class="range-btn fx-range active" data-days="30">30G</button>
+          <button class="range-btn fx-range" data-days="90">90G</button>
+          <button class="range-btn fx-range" data-days="365">1Y</button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="fxChart"></canvas>
+      </div>
+    </div>
+  </details>
+
+  <details class="section" open>
+    <summary class="section-title"><span class="st-left">Döviz Çevirici</span><span class="chevron">▾</span></summary>
+    <div class="glass converter">
+      <div class="conv-group">
+        <label>Miktar</label>
+        <div class="conv-row">
+          <input type="number" id="amountFrom" value="100" min="0" step="any">
+          <select id="currencyFrom"></select>
+        </div>
+      </div>
+
+      <button class="swap-btn" id="swapBtn" title="Yönü değiştir">⇄</button>
+
+      <div class="conv-group">
+        <label>Sonuç</label>
+        <div class="conv-row">
+          <input type="number" id="amountTo" value="0" readonly>
+          <select id="currencyTo"></select>
+        </div>
+      </div>
+    </div>
+    <div class="conv-result" id="convText">Hesaplanıyor...</div>
+    <div class="rate-note" id="rateNote"></div>
+  </details>
+
+  <details class="section" open>
+    <summary class="section-title"><span class="st-left">En Çok Kazandıranlar / Kaybettirenler</span><span class="chevron">▾</span></summary>
+    <div class="glass table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Coin</th>
+            <th>Fiyat</th>
+            <th>24s Değişim</th>
+            <th>24s En Düşük</th>
+            <th>24s En Yüksek</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="6" class="loading">Veriler yükleniyor...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+</main>
+
+<div class="ticker-wrap">
+  <div class="ticker-track" id="tickerTrack">Piyasa verileri yükleniyor...</div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-brand-logo">
+        <div class="logo-icon">⚡</div>
+        <div>Crypto<span class="accent">Horizon</span></div>
+      </div>
+      <p>Kripto para ve döviz piyasalarını tek ekrandan, anlık olarak takip edin.</p>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Site</h4>
+        <a href="#top">Genel Bakış</a>
+        <a href="#" onclick="document.querySelectorAll('details.section')[4].open=true;document.querySelectorAll('details.section')[4].scrollIntoView({behavior:'smooth'});return false;">Fiyat Grafiği</a>
+        <a href="#" onclick="document.querySelectorAll('details.section')[6].open=true;document.querySelectorAll('details.section')[6].scrollIntoView({behavior:'smooth'});return false;">Döviz Çevirici</a>
+      </div>
+      <div class="footer-col">
+        <h4>Veri Kaynakları</h4>
+        <a href="https://www.coingecko.com" target="_blank" rel="noopener">CoinGecko</a>
+        <a href="https://frankfurter.dev" target="_blank" rel="noopener">Frankfurter</a>
+        <a href="https://alternative.me" target="_blank" rel="noopener">Alternative.me</a>
+      </div>
+    </div>
+
+    <div class="footer-social">
+      <a href="#" title="Github" aria-label="Github">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.3-3.4-1.3-.5-1.1-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.6 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.6 1 2.7 0 3.8-2.4 4.6-4.6 4.9.4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div>© <span id="footerYear">2026</span> CryptoHorizon. Tüm hakları saklıdır. Veriler CoinGecko, Frankfurter ve alternative.me üzerinden anlık çekilir. Yatırım tavsiyesi değildir.</div>
+    <div>Made by <span class="fahoz">Fahoz</span></div>
+    <button class="scroll-top-btn" id="scrollTopBottom">Yukarı Çık ↑</button>
+  </div>
+</footer>
+
+<button class="scroll-fab" id="scrollFab" title="Yukarı çık" aria-label="Yukarı çık">↑</button>
+
+<script src="js/app.js"></script>
+</body>
+</html>
