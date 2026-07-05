@@ -1,4 +1,5 @@
 # CryptoHorizon
+🌐 **[English](README.md)** | Türkçe
 
 Kripto para ve döviz kurlarını tek bir sayfada takip etmek için yaptığım basit bir panel. Sadece HTML/CSS/JS ile yazıldı. Hiçbir build aracı, framework ya da backend yok.
 
